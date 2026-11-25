@@ -1,0 +1,85 @@
+
+{% extends "base.html" %}
+
+{% block title %}Reports | StockFlow{% endblock %}
+{% block heading %}Analytics & Reports{% endblock %}
+{% block subtitle %}Monitor revenue, profit and business performance.{% endblock %}
+
+{% block content %}
+
+<div class="kpis">
+
+    <div class="card">
+        <div class="icon-box blue">
+            <i class="fa-solid fa-receipt"></i>
+        </div>
+        <div class="card-label">Total Transactions</div>
+        <h2>{{ summary.total_sales }}</h2>
+        <small>Recorded sales</small>
+    </div>
+
+    <div class="card">
+        <div class="icon-box green">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+        </div>
+        <div class="card-label">Total Revenue</div>
+        <h2>₹{{ "%.2f"|format(summary.revenue) }}</h2>
+        <small>Total sales value</small>
+    </div>
+
+    <div class="card">
+        <div class="icon-box orange">
+            <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div class="card-label">Estimated Profit</div>
+        <h2>₹{{ "%.2f"|format(profit) }}</h2>
+        <small>Revenue minus product purchase cost</small>
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <h2 style="margin-bottom:20px;">Sales Report</h2>
+
+    <div class="table-wrap">
+        <table>
+
+            <thead>
+                <tr>
+                    <th>SALE ID</th>
+                    <th>PRODUCT</th>
+                    <th>QUANTITY</th>
+                    <th>UNIT PRICE</th>
+                    <th>REVENUE</th>
+                    <th>DATE</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for s in sales %}
+                <tr>
+                    <td>#{{ s.sale_id }}</td>
+                    <td><strong>{{ s.product_name }}</strong></td>
+                    <td>{{ s.quantity_sold }}</td>
+                    <td>₹{{ s.unit_price }}</td>
+                    <td><strong>₹{{ s.total_amount }}</strong></td>
+                    <td>{{ s.sale_date }}</td>
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align:center; padding:30px;">
+                        No sales data available.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

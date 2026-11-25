@@ -1,0 +1,94 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, Arial, sans-serif;
+}
+
+body { background: #f6f7fb; color: #202b45; }
+
+.sidebar {
+    width: 250px; height: 100vh; position: fixed;
+    background: #17223e; color: white; padding: 30px 20px;
+    display: flex; flex-direction: column;
+}
+
+.logo { font-size: 25px; font-weight: 800; margin: 5px 10px 55px; }
+.logo i { color: #8293ff; margin-right: 8px; }
+.nav-heading { color: #7886a4; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; margin: 20px 12px 12px; }
+
+.sidebar a {
+    color: #aeb9d0; text-decoration: none; padding: 15px;
+    border-radius: 10px; margin-bottom: 7px; font-size: 14px;
+    font-weight: 600;
+}
+.sidebar a i { width: 28px; }
+.sidebar a:hover, .sidebar a.active { background: #2b3c65; color: white; }
+.profile {
+    margin-top: auto; background: #233250; border: 1px solid #344563;
+    border-radius: 13px; padding: 17px; display: flex; gap: 12px; align-items: center;
+}
+.profile small { display: block; color: #9eabc4; margin-top: 5px; }
+.avatar { background: #e5eaff; color: #5369ed; padding: 12px; border-radius: 10px; font-weight: 800; }
+
+.main { margin-left: 250px; padding: 35px 40px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; }
+.breadcrumb, .subtitle { color: #8793ac; font-size: 13px; margin-bottom: 10px; }
+h1 { font-size: 28px; font-weight: 800; }
+.user { display: flex; align-items: center; gap: 10px; background: white; padding: 10px; border: 1px solid #e5e9f0; border-radius: 12px; }
+
+.panel, .card {
+    background: white; border: 1px solid #e8ebf2;
+    border-radius: 15px; padding: 24px; margin-bottom: 22px;
+}
+.panel h2 { font-size: 18px; margin-bottom: 18px; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin: 25px 0; }
+.card-label { color: #8793ac; font-size: 13px; }
+.card h2 { font-size: 30px; margin: 12px 0; }
+.icon-box { width: 45px; height: 45px; display: grid; place-items: center; border-radius: 12px; margin-bottom: 20px; }
+.blue { background: #eef0ff; color: #5368ed; }
+.green { background: #e5f7ef; color: #1c9c68; }
+.orange { background: #fff1e4; color: #ee963d; }
+.red { background: #ffebeb; color: #e76b70; }
+
+input, select {
+    padding: 12px; border: 1px solid #e1e6ef;
+    border-radius: 8px; background: white; outline: none; width: 100%;
+}
+input:focus, select:focus { border-color: #5368ed; }
+.form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+button, .btn {
+    border: 0; background: #5368ed; color: white; padding: 12px 18px;
+    border-radius: 8px; cursor: pointer; text-decoration: none;
+    display: inline-block; font-weight: 600; margin-top: 15px;
+}
+button:hover, .btn:hover { background: #4054d5; }
+.btn-danger { background: #dc505b; }
+table { width: 100%; border-collapse: collapse; }
+th { background: #f8f9fc; color: #929db4; font-size: 11px; text-align: left; padding: 15px; }
+td { padding: 16px 15px; border-bottom: 1px solid #edf0f5; font-size: 13px; }
+.table-wrap { overflow-x: auto; }
+.status { padding: 7px 11px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.in-stock { background: #e7f7ee; color: #19965e; }
+.low-stock { background: #fff1df; color: #d98525; }
+.out-stock { background: #ffe8e8; color: #d94d55; }
+.alert { padding: 13px; border-radius: 8px; margin-bottom: 15px; background: #e7f7ee; color: #16774b; }
+
+@media(max-width: 1000px) {
+    .sidebar { width: 200px; }
+    .main { margin-left: 200px; padding: 22px; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 650px) {
+    .sidebar { width: 65px; padding: 20px 8px; }
+    .logo { font-size: 0; margin: 10px; }
+    .logo i { font-size: 24px; }
+    .nav-heading, .sidebar a:not(.active), .profile { display: none; }
+    .sidebar a { font-size: 0; }
+    .sidebar a i { font-size: 18px; }
+    .main { margin-left: 65px; padding: 15px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .kpis { grid-template-columns: 1fr 1fr; }
+    .user { display: none; }
+}

@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StockFlow | Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+body {
+    background: #f6f7fb;
+    color: #202b45;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    background: #17223e;
+    color: white;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    margin: 5px 10px 55px;
+}
+
+.logo i {
+    color: #8293ff;
+    margin-right: 8px;
+}
+
+.nav-heading {
+    color: #7886a4;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin: 20px 12px 12px;
+}
+
+.sidebar a {
+    color: #aeb9d0;
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.sidebar a i {
+    width: 28px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #2b3c65;
+    color: white;
+}
+
+.profile {
+    margin-top: auto;
+    background: #233250;
+    border: 1px solid #344563;
+    border-radius: 13px;
+    padding: 17px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.profile small {
+    display: block;
+    color: #9eabc4;
+    margin-top: 5px;
+}
+
+.avatar {
+    background: #e5eaff;
+    color: #5369ed;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 800;
+}
+
+.main {
+    margin-left: 250px;
+    padding: 35px 40px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.breadcrumb {
+    color: #8793ac;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.subtitle {
+    color: #8793ac;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 10px;
+    border: 1px solid #e5e9f0;
+    border-radius: 12px;
+}
+
+.section-title {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.section-subtitle {
+    color: #8793ac;
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+.kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e8ebf2;
+    border-radius: 15px;
+    padding: 24px;
+    min-height: 190px;
+}
+
+.icon-box {
+    width: 45px;
+    height: 45px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.blue {
+    background: #eef0ff;
+    color: #5368ed;
+}
+
+.green {
+    background: #e5f7ef;
+    color: #1c9c68;
+}
+
+.orange {
+    background: #fff1e4;
+    color: #ee963d;
+}
+
+.red {
+    background: #ffebeb;
+    color: #e76b70;
+}
+
+.card-label {
+    color: #8793ac;
+    font-size: 13px;
+}
+
+.card h2 {
+    font-size: 30px;
+    margin: 12px 0;
+}
+
+.card small {
+    color: #8793ac;
+    font-size: 12px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #e8ebf2;
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 25px;
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    gap: 15px;
+}
+
+.add-btn {
+    background: #5368ed;
+    color: white;
+    padding: 13px 18px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.add-btn:hover {
+    background: #4054d5;
+}
+
+.search {
+    width: 250px;
+    padding: 12px;
+    border: 1px solid #e1e6ef;
+    border-radius: 8px;
+    margin-bottom: 18px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+th {
+    background: #f8f9fc;
+    color: #929db4;
+    font-size: 11px;
+    text-align: left;
+    padding: 16px;
+}
+
+td {
+    padding: 17px 16px;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 13px;
+}
+
+.product-name {
+    font-weight: 700;
+}
+
+.sku {
+    color: #929db4;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.status {
+    padding: 7px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.in-stock {
+    background: #e7f7ee;
+    color: #19965e;
+}
+
+.low-stock {
+    background: #fff1df;
+    color: #d98525;
+}
+
+.out-stock {
+    background: #ffe8e8;
+    color: #d94d55;
+}
+
+.empty {
+    text-align: center;
+    color: #8793ac;
+    padding: 30px;
+}
+
+@media(max-width: 1100px) {
+    .kpis {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 700px) {
+    .sidebar {
+        width: 65px;
+        padding: 20px 8px;
+    }
+
+    .logo {
+        font-size: 0;
+        margin: 10px;
+    }
+
+    .logo i {
+        font-size: 24px;
+    }
+
+    .nav-heading,
+    .sidebar a span,
+    .profile {
+        display: none;
+    }
+
+    .sidebar a {
+        font-size: 0;
+    }
+
+    .sidebar a i {
+        font-size: 18px;
+    }
+
+    .main {
+        margin-left: 65px;
+        padding: 15px;
+    }
+
+    .user {
+        display: none;
+    }
+
+    .kpis {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .inventory-header {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <i class="fa-solid fa-cubes"></i> StockFlow
+    </div>
+
+    <div class="nav-heading">OVERVIEW</div>
+
+    <a href="/" class="active">
+        <i class="fa-solid fa-table-cells-large"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="/products">
+        <i class="fa-solid fa-box-open"></i>
+        <span>Products</span>
+    </a>
+
+    <a href="/categories">
+        <i class="fa-solid fa-layer-group"></i>
+        <span>Categories</span>
+    </a>
+
+    <div class="nav-heading">BUSINESS</div>
+
+    <a href="/sales">
+        <i class="fa-solid fa-receipt"></i>
+        <span>Sales & Orders</span>
+    </a>
+
+    <a href="/reports">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Analytics & Reports</span>
+    </a>
+
+    <div class="profile">
+        <div class="avatar">RK</div>
+        <div>
+            <strong>Ranjan Kumar</strong>
+            <small>Administrator</small>
+        </div>
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div>
+            <div class="breadcrumb">Workspace / Dashboard</div>
+            <h1>Good day, Ranjan 👋</h1>
+            <p class="subtitle">
+                Here's your business inventory overview.
+            </p>
+        </div>
+
+        <div class="user">
+            <div class="avatar">RK</div>
+            Ranjan
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+        Key Performance Indicators
+    </div>
+
+    <p class="section-subtitle">
+        Your inventory at a glance
+    </p>
+
+
+    <section class="kpis">
+
+        <div class="card">
+            <div class="icon-box blue">
+                <i class="fa-solid fa-boxes-stacked"></i>
+            </div>
+
+            <div class="card-label">Total Products</div>
+
+            <h2>{{ total_products }}</h2>
+
+            <small>Registered products</small>
+        </div>
+
+
+        <div class="card">
+            <div class="icon-box green">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <div class="card-label">Categories</div>
+
+            <h2>{{ total_categories }}</h2>
+
+            <small>Product classifications</small>
+        </div>
+
+
+        <div class="card">
+            <div class="icon-box orange">
+                <i class="fa-solid fa-cubes"></i>
+            </div>
+
+            <div class="card-label">Total Stock</div>
+
+            <h2>{{ total_stock }}</h2>
+
+            <small>Units currently available</small>
+        </div>
+
+
+        <div class="card">
+            <div class="icon-box red">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+            <div class="card-label">Low Stock Items</div>
+
+            <h2>{{ low_stock }}</h2>
+
+            <small>Products requiring attention</small>
+        </div>
+
+    </section>
+
+
+    <section class="panel">
+
+        <div class="inventory-header">
+
+            <div>
+                <div class="section-title">
+                    Inventory Overview
+                </div>
+
+                <p class="section-subtitle">
+                    Live inventory from your MySQL database
+                </p>
+            </div>
+
+            <a href="/products" class="add-btn">
+                <i class="fa-solid fa-plus"></i>
+                Add Product
+            </a>
+
+        </div>
+
+
+        <input
+            type="text"
+            class="search"
+            id="searchInput"
+            placeholder="Search products..."
+            onkeyup="searchProducts()"
+        >
+
+
+        <div class="table-wrap">
+
+            <table id="productTable">
+
+                <thead>
+                    <tr>
+                        <th>PRODUCT</th>
+                        <th>CATEGORY</th>
+                        <th>UNIT PRICE</th>
+                        <th>QUANTITY</th>
+                        <th>STOCK STATUS</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    {% for product in recent_products %}
+
+                    <tr>
+
+                        <td>
+                            <div class="product-name">
+                                {{ product.product_name }}
+                            </div>
+
+                            <div class="sku">
+                                {{ product.sku }}
+                            </div>
+                        </td>
+
+
+                        <td>
+                            {{ product.category_name or 'Uncategorized' }}
+                        </td>
+
+
+                        <td>
+                            ₹{{ product.selling_price }}
+                        </td>
+
+
+                        <td>
+                            {{ product.quantity }} units
+                        </td>
+
+
+                        <td>
+
+                            {% if product.quantity == 0 %}
+
+                                <span class="status out-stock">
+                                    Out of Stock
+                                </span>
+
+                            {% elif product.quantity <= product.reorder_level %}
+
+                                <span class="status low-stock">
+                                    Low Stock
+                                </span>
+
+                            {% else %}
+
+                                <span class="status in-stock">
+                                    In Stock
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="5" class="empty">
+                            No products found. Add your first product!
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+function searchProducts() {
+
+    const input = document
+        .getElementById("searchInput")
+        .value.toLowerCase();
+
+    const rows = document.querySelectorAll(
+        "#productTable tbody tr"
+    );
+
+    rows.forEach(row => {
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(input)
+                ? ""
+                : "none";
+
+    });
+
+}
+</script>
+
+</body>
+</html>

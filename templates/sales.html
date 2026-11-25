@@ -1,0 +1,115 @@
+
+{% extends "base.html" %}
+
+{% block title %}Sales | StockFlow{% endblock %}
+{% block heading %}Sales & Orders{% endblock %}
+{% block subtitle %}Record transactions and monitor your sales history.{% endblock %}
+
+{% block content %}
+
+<div class="panel">
+    <h2>Record New Sale</h2>
+
+    {% if products %}
+    <form action="{{ url_for('add_sale') }}" method="POST">
+
+        <div class="form-grid">
+
+            <select name="product_id" id="productSelect" required>
+                <option value="">Select Product</option>
+
+                {% for p in products %}
+                <option value="{{ p.product_id }}">
+                    {{ p.product_name }} — ₹{{ p.selling_price }} ({{ p.quantity }} available)
+                </option>
+                {% endfor %}
+            </select>
+
+            <input
+                type="number"
+                name="quantity"
+                placeholder="Quantity Sold"
+                min="1"
+                required
+            >
+
+        </div>
+
+        <button type="submit">
+            <i class="fa-solid fa-cart-shopping"></i> Record Sale
+        </button>
+
+    </form>
+    {% else %}
+    <p>No products with available stock. Add inventory before recording a sale.</p>
+    {% endif %}
+</div>
+
+<div class="panel">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; gap:15px; flex-wrap:wrap;">
+        <h2>Sales History</h2>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search sales..."
+            style="max-width:250px;"
+            onkeyup="searchSales()"
+        >
+    </div>
+
+    <div class="table-wrap">
+        <table id="salesTable">
+
+            <thead>
+                <tr>
+                    <th>SALE ID</th>
+                    <th>PRODUCT</th>
+                    <th>QUANTITY</th>
+                    <th>UNIT PRICE</th>
+                    <th>TOTAL AMOUNT</th>
+                    <th>DATE</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for s in sales %}
+                <tr>
+                    <td>#{{ s.sale_id }}</td>
+                    <td><strong>{{ s.product_name }}</strong></td>
+                    <td>{{ s.quantity_sold }}</td>
+                    <td>₹{{ s.unit_price }}</td>
+                    <td><strong>₹{{ s.total_amount }}</strong></td>
+                    <td>{{ s.sale_date }}</td>
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align:center; padding:30px;">
+                        No sales recorded yet.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function searchSales() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+
+    document.querySelectorAll("#salesTable tbody tr").forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(input)
+            ? ""
+            : "none";
+    });
+}
+</script>
+{% endblock %}

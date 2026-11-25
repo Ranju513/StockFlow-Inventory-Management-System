@@ -1,0 +1,120 @@
+
+{% extends "base.html" %}
+
+{% block title %}Categories | StockFlow{% endblock %}
+{% block heading %}Categories{% endblock %}
+{% block subtitle %}Organize and manage your inventory categories.{% endblock %}
+
+{% block content %}
+
+<div class="panel">
+    <h2>Add New Category</h2>
+
+    <form action="{{ url_for('add_category') }}" method="POST">
+        <div class="form-grid">
+            <input
+                type="text"
+                name="category_name"
+                placeholder="Category Name"
+                required
+            >
+
+            <input
+                type="text"
+                name="description"
+                placeholder="Category Description"
+            >
+        </div>
+
+        <button type="submit">
+            <i class="fa-solid fa-plus"></i> Add Category
+        </button>
+    </form>
+</div>
+
+<div class="panel">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; gap:15px; flex-wrap:wrap;">
+        <h2>All Categories</h2>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search categories..."
+            style="max-width:250px;"
+            onkeyup="searchCategories()"
+        >
+    </div>
+
+    <div class="table-wrap">
+        <table id="categoryTable">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>CATEGORY NAME</th>
+                    <th>DESCRIPTION</th>
+                    <th>PRODUCT COUNT</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for c in categories %}
+                <tr>
+                    <td>#{{ c.category_id }}</td>
+
+                    <td>
+                        <strong>{{ c.category_name }}</strong>
+                    </td>
+
+                    <td>{{ c.description or '-' }}</td>
+
+                    <td>{{ c.product_count }} products</td>
+
+                    <td>
+                        <form
+                            method="POST"
+                            action="{{ url_for('delete_category', category_id=c.category_id) }}"
+                            onsubmit="return confirm('Delete this category?');"
+                        >
+                            <button
+                                type="submit"
+                                class="btn-danger"
+                                style="margin:0; padding:9px 13px;"
+                                {% if c.product_count > 0 %}disabled title="Category contains products"{% endif %}
+                            >
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align:center; padding:30px;">
+                        No categories found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function searchCategories() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+
+    document.querySelectorAll("#categoryTable tbody tr").forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(input)
+            ? ""
+            : "none";
+    });
+}
+</script>
+{% endblock %}
